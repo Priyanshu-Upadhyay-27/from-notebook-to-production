@@ -48,3 +48,22 @@ class HouseFeatures(BaseModel):
     furnished: bool
     parking: Optional[bool] = False
     floor: Optional[int] = None
+
+
+"""@app.post("/predict")
+def predict_price(features: HouseFeatures):
+    return {
+        "area": features.area,
+        "bedrooms": features.bedrooms,
+        "location": features.location,
+        "furnished": features.furnished,
+        "message": "Data received successfully!"
+    }"""
+
+@app.post("/predict")
+def predict_price(features: HouseFeatures):
+    data = features.model_dump()
+    return {
+        "received_data": data,
+        "message": "Ready for prediction!"
+    }
