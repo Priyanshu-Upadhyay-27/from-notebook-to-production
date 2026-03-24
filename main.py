@@ -1,69 +1,43 @@
 from fastapi import FastAPI
-from typing import Optional
 from pydantic import BaseModel
+from typing import Optional
+import joblib
+import numpy as np
+
+# Load the model once when the server starts
+model = joblib.load("house_price_model.pkl")
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "Hello, World!"}
-
-@app.get("/student/{student_id}")
-def get_student(student_id: int):
-    return {"student_id": student_id, "message": f"Fetching student {student_id}"}
-
-@app.get("/student/{student_id}/subject/{subject_name}")
-def get_subject(student_id: int, subject_name: str):
-    return {
-        "student_id": student_id,
-        "subject": subject_name
-    }
-
-"""@app.get("/students")
-def get_students(city: str, age: int):
-    return {
-        "city": city,
-        "age": age,
-        "message": f"Fetching students from {city} aged {age}"
-    }"""
-from typing import Optional
-
-@app.get("/students")
-def get_students(city: str, age: Optional[int] = None):
-    if age:
-        return {"city": city, "age": age}
-    return {"city": city, "age": "not provided"}
-
-@app.get("/student/{student_id}/results")
-def get_results(student_id: int, subject: Optional[str] = None):
-    if subject:
-        return {"student_id": student_id, "subject": subject}
-    return {"student_id": student_id, "subject": "all subjects"}
-
-
+# Define the input structure
 class HouseFeatures(BaseModel):
     area: int
     bedrooms: int
-    location: str
-    furnished: bool
-    parking: Optional[bool] = False
-    floor: Optional[int] = None
+    location: Optional[str] = "unknown"
+    furnished: Optional[bool] = False
 
+# Root endpoint
+@app.get("/")
+def home():
+    return {"message": "House Price Prediction API is running!"}
 
-"""@app.post("/predict")
-def predict_price(features: HouseFeatures):
-    return {
-        "area": features.area,
-        "bedrooms": features.bedrooms,
-        "location": features.location,
-        "furnished": features.furnished,
-        "message": "Data received successfully!"
-    }"""
-
+# Prediction endpoint
 @app.post("/predict")
 def predict_price(features: HouseFeatures):
-    data = features.model_dump()
+
+    # Prepare input for the model
+    input_data = np.array([[features.area, features.bedrooms]])
+
+    # Get prediction
+    prediction = model.predict(input_data)
+
+    # Return result
     return {
-        "received_data": data,
-        "message": "Ready for prediction!"
+        "input_received": {
+            "area": features.area,
+            "bedrooms": features.bedrooms,
+            "location": features.location,
+            "furnished": features.furnished
+        },
+        "predicted_price_lakhs": round(float(prediction[0]), 2)
     }
