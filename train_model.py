@@ -22,3 +22,8 @@ y = np.array([25, 35, 45, 55, 70, 85, 95, 120])
 model = LinearRegression()
 model.fit(X, y)
 
+# Save model to file
+joblib.dump(model, "house_price_model.pkl")
+
+print("Model trained and saved successfully!")
+print(f"Sample prediction for area=1500, bedrooms=3: {model.predict([[1500, 3]])[0]:.2f} lakhs")
