@@ -1,0 +1,28 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+fastapi_env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+# Ignore IDE specific files
+.idea/
+.vscode/
+# Ignore OS specific files
+.DS_Store
+Thumbs.db
+# Ignore log files
+*.log
+# Ignore database files
+*.sqlite3
+# Ignore test files
+tests/
+# Ignore coverage files
+.coverage
+htmlcov/
+
