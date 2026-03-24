@@ -41,3 +41,10 @@ def get_results(student_id: int, subject: Optional[str] = None):
     return {"student_id": student_id, "subject": "all subjects"}
 
 
+class HouseFeatures(BaseModel):
+    area: int
+    bedrooms: int
+    location: str
+    furnished: bool
+    parking: Optional[bool] = False
+    floor: Optional[int] = None
