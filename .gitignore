@@ -25,4 +25,4 @@ tests/
 # Ignore coverage files
 .coverage
 htmlcov/
-
+env/
