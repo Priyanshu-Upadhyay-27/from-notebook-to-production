@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path, HTTPException
+from fastapi import FastAPI, Path, HTTPException, Query
 import json
 
 def load_data():
@@ -22,10 +22,17 @@ def view():
     return data
 
 @app.get("/patient/{patient_id}")
-def get_patient_data(patient_id: str = Path(..., description="Id of the Patient in the database", example ="P001")):
+def get_patient_data(patient_id: str = Path(..., description="Id of the Patient in the database", examples ="P001")):
     data = load_data()
     if patient_id in data:
         return data[patient_id]
     else:
         raise HTTPException(status_code=404, detail="Patient Not Found")
+    
+
+@app.get("/sort")
+def patient_sort(sort_by: str = Query(description = "Sort on the basis of height, weight or bmi"), 
+                 order: str = Query(description = "Sorting in asc and desc")):
+    
+
     
