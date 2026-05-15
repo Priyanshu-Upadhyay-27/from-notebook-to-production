@@ -33,6 +33,13 @@ def get_patient_data(patient_id: str = Path(..., description="Id of the Patient 
 @app.get("/sort")
 def patient_sort(sort_by: str = Query(description = "Sort on the basis of height, weight or bmi"), 
                  order: str = Query(description = "Sorting in asc and desc")):
-    
+    valid_fields = ["height", "weight", "bmi"]
 
+    if sort_by not in valid_fields:
+        raise HTTPException(status_code = 400, detail = f"Invalid field, select from {valid_fields}")
+    
+    if order not in["asc", "desc"]:
+        raise HTTPException(status_code = 400, detail = "Invalid field, select from asc or desc")
+    
+    
     
