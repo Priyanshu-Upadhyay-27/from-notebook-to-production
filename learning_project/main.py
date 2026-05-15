@@ -41,5 +41,9 @@ def patient_sort(sort_by: str = Query(description = "Sort on the basis of height
     if order not in["asc", "desc"]:
         raise HTTPException(status_code = 400, detail = "Invalid field, select from asc or desc")
     
-    
+    data = load_data()
+    sort_order = True if order == "desc" else False
+    sorted_data = sorted(data.values(), key = lambda x: x.get(sort_by, 0), reverse = sort_order)
+
+    return sorted_data
     
