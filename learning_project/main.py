@@ -47,3 +47,4 @@ def patient_sort(sort_by: str = Query(description = "Sort on the basis of height
 
     return sorted_data
     
+# Starting Pydantic
