@@ -7,7 +7,7 @@ class validate_patient_data(BaseModel):
     email: EmailStr # It can validate the format of email is correct or not.
     linkedin_url: AnyUrl # It can validate any URL.
     age: int = Field(ge=0, lt = 100)
-    weight: float 
+    weight: Annotated[float, Field(default = None, title= "Weight of the patient", strict = True, gt=0)]
     married: Annotated[bool, Field(default = False, description="Enter the marriage status of the partner", 
                                    title = "Married or Not", examples= "True or False")]
     allergies: Optional[List[str]] = None
@@ -25,7 +25,7 @@ def insert_patient_data(patient: validate_patient_data):
     print(f"Contact Details: {patient.contact_details}")
     print("Inserted")
 
-patient_info = {"name":"Priyanshuuuuu", "email": "abc@gmail.com", "age":"-30", "weight": 80.3, "married":True,
+patient_info = {"name":"Priyanshuuuuu", "email": "abc@gmail.com", "age":"30", "weight": "80.3", "married":True,
                  "allergies":["Pollen", "dogs", "bees", "dust"], "linkedin_url": "https://www.linkedin.com/in/priyanshu-upadhyay-cse/",
                  "contact_details":{"phone no.:":"9730735220"}} # here pydantic is converting, string 30 into integer 30.
 
