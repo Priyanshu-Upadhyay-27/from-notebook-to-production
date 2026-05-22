@@ -1,11 +1,11 @@
 from pydantic import BaseModel
-from typing import List, Dict
+from typing import List, Dict, Optional
 class validate_patient_data(BaseModel):
     name: str
     age: int
     weight: float
-    married: bool
-    allergies: List[str]
+    married: bool = False
+    allergies: Optional[List[str]] = None
     contact_details: Dict[str, str]
 
 
@@ -18,8 +18,8 @@ def insert_patient_data(patient: validate_patient_data):
     print(f"Contact Details: {patient.contact_details}")
     print("Inserted")
 
-patient_info = {"name":"Priyanshu", "age":"30", "weight": 80.3, "married":True,
-                 "allergies":["Pollen", "dogs", "bees", "dust"], "contact_details":{"email":"xyz@gmail.com", "phone no.:":"9730735220"}} # here pydantic is converting, string 30 into integer 30.
+patient_info = {"name":"Priyanshu", "age":"30", "weight": 80.3, 
+            "contact_details":{"email":"xyz@gmail.com", "phone no.:":"9730735220"}} # here pydantic is converting, string 30 into integer 30.
 
 patient1 = validate_patient_data(**patient_info)
 
