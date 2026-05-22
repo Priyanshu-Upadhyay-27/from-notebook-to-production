@@ -12,3 +12,5 @@ def insert_patient_data(patient: validate_patient_data):
 patient_info = {"name":"Priyanshu", "age":30}
 
 patient1 = validate_patient_data(**patient_info)
+
+insert_patient_data(patient1)
