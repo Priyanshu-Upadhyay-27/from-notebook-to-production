@@ -25,7 +25,7 @@ def insert_patient_data(patient: validate_patient_data):
     print(f"Contact Details: {patient.contact_details}")
     print("Inserted")
 
-patient_info = {"name":"Priyanshuuuuu", "email": "abc@gmail.com", "age":"30", "weight": "80.3", "married":True,
+patient_info = {"name":"Priyanshuuuuu", "email": "abc@gmail.com", "age":"30", "weight": 80.3, "married":True,
                  "allergies":["Pollen", "dogs", "bees", "dust"], "linkedin_url": "https://www.linkedin.com/in/priyanshu-upadhyay-cse/",
                  "contact_details":{"phone no.:":"9730735220"}} # here pydantic is converting, string 30 into integer 30.
 
