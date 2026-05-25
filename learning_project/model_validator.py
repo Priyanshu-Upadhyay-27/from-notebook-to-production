@@ -25,7 +25,7 @@ def insert_patient_data(patient: Patient):
     print(f"Is the Patient Married: {patient.married}")
 
 patient_info = {"name":"Priyanshuuuuu", "email": "abc@icici.com", "age":"69", "weight": 80.3, "married":True,
-                 "allergies":["Pollen", "dogs", "bees", "dust"], "contact_details":{"phone no.:":"9730735220"}}
+                 "allergies":["Pollen", "dogs", "bees", "dust"], "contact_details":{"phone no.:":"9730735220", "emergency":"7906012875"}}
 
 patient1 = Patient(**patient_info) 
 
