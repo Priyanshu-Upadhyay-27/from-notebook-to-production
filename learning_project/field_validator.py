@@ -20,6 +20,12 @@ class Patient(BaseModel):
         else:
             raise ValueError("Not a valid domain")
         return value # retun value is very significant., as the email will be None, if no return is there. 
+    
+    @field_validator('name')
+    @classmethod
+    def transform_name(cls, value):
+        return value.upper()
+
         
 def insert_patient_data(patient: Patient):
     print(f"Patient Name: {patient.name}")
