@@ -19,12 +19,19 @@ class Patient(BaseModel):
             print(f"Person recognized from {domain_name}")
         else:
             raise ValueError("Not a valid domain")
-        return value # retun value is very significant., as the email will be None, if no return is there. 
+        return value # retun value is very significant as the email will be None, if no return is there. 
     
     @field_validator('name')
     @classmethod
     def transform_name(cls, value):
         return value.upper()
+    
+    @field_validator('age', mode = "before") # Custom data validation stage(second).
+    @classmethod
+    def validate_age(cls, value):
+        if value not in range(1, 101):
+            raise ValueError("Invalid Age")
+        return value
 
         
 def insert_patient_data(patient: Patient):
@@ -37,7 +44,7 @@ def insert_patient_data(patient: Patient):
 patient_info = {"name":"Priyanshuuuuu", "email": "abc@icici.com", "age":"30", "weight": 80.3, "married":True,
                  "allergies":["Pollen", "dogs", "bees", "dust"], "contact_details":{"phone no.:":"9730735220"}}
 
-patient1 = Patient(**patient_info)
+patient1 = Patient(**patient_info) # Internal Data Validation Stage by pydantic (first), Internal Coercion happens here only.
 
 insert_patient_data(patient1)
 
