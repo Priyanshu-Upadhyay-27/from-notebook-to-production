@@ -36,15 +36,13 @@ class Patient(BaseModel):
 # id is not included as it will be passed as path parameter to locate the reource
 # every field is optional, because when updating it is not necessary to update all the fields
 class PatientUpdate(BaseModel):
-    name: Annotated[Optional[str], Field(description = "Name of the Patient")]
-    city: Annotated[Optional[str], Field(description = "City of the Patient")]
-    age: Annotated[Optional[int], Field(gt = 0, lt = 110, description = "Age of the Patient")]
-    gender: Annotated[Optional[Literal["male", "female", "others"]], Field(description = "Gender of the patient")]
-    height: Annotated[Optional[float], Field(gt = 0, description = "Height of the patient(in meter)")]
-    weight: Annotated[Optional[float], Field(gt = 0, description = "Weight pf the patient(in Kg)")]
+    name: Annotated[Optional[str], Field(description = "Name of the Patient", default = None)]
+    city: Annotated[Optional[str], Field(description = "City of the Patient", default = None)]
+    age: Annotated[Optional[int], Field(gt = 0, lt = 110, description = "Age of the Patient", default = None)]
+    gender: Annotated[Optional[Literal["male", "female", "others"]], Field(description = "Gender of the patient", default = None)]
+    height: Annotated[Optional[float], Field(gt = 0, description = "Height of the patient(in meter)", default = None)]
+    weight: Annotated[Optional[float], Field(gt = 0, description = "Weight pf the patient(in Kg)", default = None)]
 
-
-        
 
 def load_data():
     with open('patients.json', 'r') as f:
@@ -113,3 +111,27 @@ def create_patient(patient: Patient):
     save_data(data)
 
     return JSONResponse(status_code=201, content={'message': "patient created successfully"})
+
+
+@app1.put('/edit/{patient_id}')
+def update_patient(patient_id: str, patient_update: PatientUpdate):
+    data = load_data()
+    if patient_id not in data:
+        raise HTTPException(status_code=404, detail = "Patient not found")
+    
+    existing_patient_info = data[patient_id]
+
+    updated_patient_info = patient_update.model_dump(exclude_unset = True) 
+    # serialization: converts to dictionary and it will not inlcude None values
+
+    for key, value in updated_patient_info.items():
+        existing_patient_info[key] = value
+
+    existing_patient_info['id'] = patient_id
+    pydantic_patient_obj = Patient(**existing_patient_info)
+    existing_patient_info = pydantic_patient_obj.model_dump(exclude='id')
+
+    data['patient_id'] = existing_patient_info
+
+    save_data(data)
+    return JSONResponse(status_code=200, content={"message":"Patient details updated"})
