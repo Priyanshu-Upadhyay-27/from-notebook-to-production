@@ -39,9 +39,10 @@ def load_data():
         data = json.load(f)
 
     return data
-def save_data():
+
+def save_data(d):
     with open('patient.json', 'w')as f:
-        json.dump(data, f)
+        json.dump(d, f)
 
 @app1.get("/")
 def hello():
