@@ -41,7 +41,7 @@ def load_data():
     return data
 
 def save_data(d):
-    with open('patient.json', 'w')as f:
+    with open('patients.json', 'w') as f:
         json.dump(d, f)
 
 @app1.get("/")
@@ -58,7 +58,7 @@ def view():
     return data
 
 @app1.get("/patient/{patient_id}")
-def get_patient_data(patient_id: str = Path(..., description="Id of the Patient in the database", examples ="P001")):
+def get_patient_data(patient_id: str = Path(..., description="Id of the Patient in the database", example="P001")):
     data = load_data()
     if patient_id in data:
         return data[patient_id]
@@ -90,7 +90,7 @@ def create_patient(patient: Patient):
     data = load_data()
 
     if patient.id in data:
-        raise HTTPException(status_code=400, details = "Patient already existed")
+        raise HTTPException(status_code=400, detail = "Patient already existed")
     
     data[patient.id] = patient.model_dump(exclude=['id'])
 
