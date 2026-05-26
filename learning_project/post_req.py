@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Path, Query, HTTPException, Field
+from fastapi import FastAPI, Path, Query, HTTPException
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel, computed_field, Field
 from typing import Annotated, Literal
 import json
 
@@ -83,3 +83,16 @@ def patient_sort(sort_by: str = Query(description = "Sort on the basis of height
     return sorted_data
     
 
+@app1.post("/create")
+def create_patient(patient: Patient):
+
+    data = load_data()
+
+    if patient.id in data:
+        raise HTTPException(status_code=400, details = "Patient already existed")
+    
+    data[patient.id] = patient.model_dump(exclude=['id'])
+
+    save_data(data)
+
+    return JSONResponse(status_code=201, content={'message': "patient created successfully"})
