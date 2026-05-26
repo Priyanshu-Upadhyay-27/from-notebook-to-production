@@ -85,7 +85,11 @@ def patient_sort(sort_by: str = Query("bmi", description = "Sort on the basis of
     
 
 @app1.post("/create")
-def create_patient(patient: Patient):
+def create_patient(patient: Patient): 
+    # I was wondering how the new data reaches this function??
+    # When the new data comes with the post request(i.e. HTTP), the pydantic automatically 
+    # reads it and validates it against our pydantic model Patient, patient is the object which
+    # is the object, and against it, the request data is validated sutomatically by the pydantic.
 
     data = load_data()
 
