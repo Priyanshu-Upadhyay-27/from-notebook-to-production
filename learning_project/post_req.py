@@ -58,7 +58,7 @@ def view():
     return data
 
 @app1.get("/patient/{patient_id}")
-def get_patient_data(patient_id: str = Path(..., description="Id of the Patient in the database", example="P001")):
+def get_patient_data(patient_id: str = Path(..., description="Id of the Patient in the database", examples=["P001"])):
     data = load_data()
     if patient_id in data:
         return data[patient_id]
@@ -67,8 +67,8 @@ def get_patient_data(patient_id: str = Path(..., description="Id of the Patient 
     
 
 @app1.get("/sort")
-def patient_sort(sort_by: str = Query(description = "Sort on the basis of height, weight or bmi"), 
-                 order: str = Query(description = "Sorting in asc and desc")):
+def patient_sort(sort_by: str = Query("bmi", description = "Sort on the basis of height, weight or bmi"), 
+                 order: str = Query("desc", description = "Sorting in asc and desc")):
     valid_fields = ["height", "weight", "bmi"]
 
     if sort_by not in valid_fields:
