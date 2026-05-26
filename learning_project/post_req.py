@@ -131,7 +131,7 @@ def update_patient(patient_id: str, patient_update: PatientUpdate):
     pydantic_patient_obj = Patient(**existing_patient_info)
     existing_patient_info = pydantic_patient_obj.model_dump(exclude='id')
 
-    data['patient_id'] = existing_patient_info
+    data[patient_id] = existing_patient_info
 
     save_data(data)
     return JSONResponse(status_code=200, content={"message":"Patient details updated"})
