@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Path, Query, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, computed_field, Field
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Optional
 import json
 
 app1 = FastAPI()
@@ -32,6 +32,18 @@ class Patient(BaseModel):
             return 'overweight'
         else:
             return 'obese'
+        
+# id is not included as it will be passed as path parameter to locate the reource
+# every field is optional, because when updating it is not necessary to update all the fields
+class PatientUpdate(BaseModel):
+    name: Annotated[Optional[str], Field(description = "Name of the Patient")]
+    city: Annotated[Optional[str], Field(description = "City of the Patient")]
+    age: Annotated[Optional[int], Field(gt = 0, lt = 110, description = "Age of the Patient")]
+    gender: Annotated[Optional[Literal["male", "female", "others"]], Field(description = "Gender of the patient")]
+    height: Annotated[Optional[float], Field(gt = 0, description = "Height of the patient(in meter)")]
+    weight: Annotated[Optional[float], Field(gt = 0, description = "Weight pf the patient(in Kg)")]
+
+
         
 
 def load_data():
