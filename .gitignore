@@ -25,3 +25,6 @@ tests/
 # Ignore coverage files
 .coverage
 htmlcov/
+learning_project/Presenting_model_as_API/Titanic_train.csv
+learning_project/Presenting_model_as_API/insurance.csv
+learning_project/Presenting_model_as_API/fastapi_ml_model.ipynb
