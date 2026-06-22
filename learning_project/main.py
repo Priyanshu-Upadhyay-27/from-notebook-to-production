@@ -7,7 +7,6 @@ def load_data():
         return data
 
 app = FastAPI()
-
 @app.get("/")
 def hello():
     return {"message": "Patient management system API"}
